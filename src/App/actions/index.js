@@ -6,8 +6,6 @@ import {
     LOAD_MAP_SCRIPT
 } from './actionTypes';
 
-
-
 export const receiveLocation = (geolocation) => dispatch => {
     return findCurrentLocation(geolocation)
         .then(position => dispatch({

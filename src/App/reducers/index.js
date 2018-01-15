@@ -10,7 +10,7 @@ const initialState = {
     error: null
 };
 
-function currentLocation(state=initialState,action) {
+export function currentLocation(state=initialState,action) {
     switch(action.type) {
         case RECEIVE_INITIAL_GEOLOCATION :
             return {
@@ -28,7 +28,7 @@ function currentLocation(state=initialState,action) {
     }
 }
 
-function googleMaps(state={mapAvailable:null},action) {
+export function googleMaps(state={mapAvailable:null},action) {
     switch(action.type) {
         case LOAD_MAP_SCRIPT :
             return {
