@@ -44,10 +44,10 @@ describe('Testing handling reducers', () => {
         expect(currentLocation([], {
             type: types.REJECT_INITIAL_GEOLOCATION,
             position: null,
-            error: 'error'
+            rejection: 'error'
         })).toEqual({
             position: null,
-            error: 'error'
+            rejection: 'error'
         })
 
     });

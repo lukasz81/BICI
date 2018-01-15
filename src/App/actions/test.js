@@ -55,7 +55,7 @@ describe('async actions', () => {
         const expectedAction = [{
             type: types.REJECT_INITIAL_GEOLOCATION,
             position: null,
-            error: 'error'
+            rejection: 'error'
         }];
 
         const store = mockStore();

@@ -14,7 +14,7 @@ export const receiveLocation = (geolocation) => dispatch => {
         }), error => dispatch({
                 type: REJECT_INITIAL_GEOLOCATION,
                 position: null,
-                error: error.code === 1 ? error.code : 'error'
+                rejection: error.code === 1 ? 'user rejection' : 'error'
             }))
         .catch(error => console.log(error))
 };

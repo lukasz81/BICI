@@ -11,20 +11,24 @@ export class App extends Component {
     }
 
     render() {
+        const {rejection} = this.props.state.currentLocation;
         return (
             <div className="App">
-                <Map/>
+                {rejection === 'user rejection'
+                    ? (<p>Location detection rejected by user ...</p>)
+                    : (<Map/>)
+                }
             </div>
         );
     }
 }
 
-function mapStateToProps (state) {
+const mapStateToProps = state => {
     return {
         state,
         center: state.currentLocation.position
     };
-}
+};
 
 const mapDispatchToProps = dispatch => ({
     receiveLocation: () => dispatch(receiveLocation(navigator.geolocation))

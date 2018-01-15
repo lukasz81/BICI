@@ -1,6 +1,6 @@
 import React from 'react';
 import Map from './Map';
-import Adapter from 'enzyme-adapter-react-15';
+import Adapter from 'enzyme-adapter-react-16';
 import { shallow } from 'enzyme';
 import { configure } from 'enzyme';
 configure({ adapter: new Adapter() });
