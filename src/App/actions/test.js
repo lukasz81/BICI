@@ -38,7 +38,7 @@ describe('async actions', () => {
             position: coords
         }];
 
-        const store = mockStore({ position: coords });
+        const store = mockStore();
 
         const getCurrentPosition = (callback) => {
             callback({ coords })
@@ -52,14 +52,13 @@ describe('async actions', () => {
 
     it('creates REJECT_INITIAL_GEOLOCATION when fetching receiveLocation has been failed', () => {
 
-        const coords = {lat:10,lng:10};
-
         const expectedAction = [{
-            type: types.RECEIVE_INITIAL_GEOLOCATION,
-            position: coords
+            type: types.REJECT_INITIAL_GEOLOCATION,
+            position: null,
+            error: 'error'
         }];
 
-        const store = mockStore({ position: coords });
+        const store = mockStore();
 
         const getCurrentPositionWithRejection = (callback, errorCallback) => {
             errorCallback()
@@ -70,9 +69,5 @@ describe('async actions', () => {
         });
 
     })
-
-    // next test: creates RECEIVE... when findCurrentLocation fails
-
-    // expect some default coords, trigger the errorcallback
 
 });

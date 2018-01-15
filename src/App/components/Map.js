@@ -27,10 +27,11 @@ class Map extends Component {
     };
 
     render() {
-        const {center} = this.props;
+        const {center,error} = this.props;
         return (
             <div>
-                {!center ? <p>Loading data ...</p> : ''}
+                {!center && error !== 1 ? <p>Loading data ...</p> : ''}
+                {error === 1 ? <p>Location detection rejected by user ...</p> : ''}
                 <div id={'mapContainer'} className="Map"> </div>
             </div>
             )
@@ -46,7 +47,8 @@ export let dispatchOutsideOfConnect = function(store) {
 function mapStateToProps (state) {
     return {
         mapOk: state.googleMaps.mapAvailable,
-        center: state.currentLocation.position
+        center: state.currentLocation.position,
+        error: state.currentLocation.error
     };
 }
 

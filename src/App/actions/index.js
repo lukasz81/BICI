@@ -8,16 +8,17 @@ import {
 
 
 
-export const receiveLocation = (getCurrentPosition) => dispatch => {
-    return findCurrentLocation(getCurrentPosition)
+export const receiveLocation = (geolocation) => dispatch => {
+    return findCurrentLocation(geolocation)
         .then(position => dispatch({
                 type: RECEIVE_INITIAL_GEOLOCATION,
                 position: position.coords
-        }))
-        .catch(error => dispatch({
-            type: REJECT_INITIAL_GEOLOCATION,
-            position: error.code
-        }))
+        }), error => dispatch({
+                type: REJECT_INITIAL_GEOLOCATION,
+                position: null,
+                error: error.code === 1 ? error.code : 'error'
+            }))
+        .catch(error => console.log(error))
 };
 
 export function addGoogleMapsScriptToDocument () {
