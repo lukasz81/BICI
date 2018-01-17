@@ -7,15 +7,19 @@ import './App.css';
 export class App extends Component {
 
     componentDidMount() {
-        this.props.receiveLocation();
+        this.updateLocation();
     }
 
+    updateLocation() {
+        this.props.receiveLocation();
+    };
+
     render() {
-        const {rejection} = this.props.state.currentLocation;
+        const {rejection} = this.props;
         return (
             <div className="App">
                 {rejection === 'user rejection'
-                    ? (<p>Location detection rejected by user ...</p>)
+                    ? (<p className={'reject'}>Location detection rejected by user ...</p>)
                     : (<Map/>)
                 }
             </div>
@@ -26,7 +30,8 @@ export class App extends Component {
 const mapStateToProps = state => {
     return {
         state,
-        center: state.currentLocation.position
+        center: state.currentLocation.position,
+        rejection: state.currentLocation.rejection
     };
 };
 

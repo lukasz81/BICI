@@ -18,7 +18,6 @@ export function currentLocation(state=initialState,action) {
                 position: {lat: action.position.latitude, lng: action.position.longitude}
             };
         case REJECT_INITIAL_GEOLOCATION :
-            console.log('ACTION => ',action);
             return {
                 ...state,
                 position: action.position,

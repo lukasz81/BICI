@@ -44,7 +44,6 @@ export let dispatchOutsideOfConnect = function(store) {
 };
 
 function mapStateToProps (state) {
-    console.log('STATE =>', state.googleMaps);
     return {
         mapOk: state.googleMaps.mapAvailable,
         center: state.currentLocation.position,

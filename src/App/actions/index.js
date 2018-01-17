@@ -11,10 +11,10 @@ export const receiveLocation = (geolocation) => dispatch => {
         .then(position => dispatch({
                 type: RECEIVE_INITIAL_GEOLOCATION,
                 position: position.coords
-        }), error => dispatch({
+        }), () => dispatch({
                 type: REJECT_INITIAL_GEOLOCATION,
                 position: null,
-                rejection: error.code === 1 ? 'user rejection' : 'error'
+                rejection: 'user rejection'
             }))
         .catch(error => console.log(error))
 };

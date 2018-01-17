@@ -2,20 +2,13 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import * as actions from './';
 import * as types from './actionTypes';
-import fetchMock from 'fetch-mock';
+//import fetchMock from 'fetch-mock';
 import expect from 'expect';
-
-//import findCurrentLocation from '../helpers/currentLocation';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('async actions', () => {
-
-    afterEach(() => {
-        fetchMock.reset();
-        fetchMock.restore();
-    });
 
     it('should create an action to set mapAvailable boolean to true', () => {
 
@@ -48,14 +41,14 @@ describe('async actions', () => {
             expect(store.getActions()).toEqual(expectedAction);
         });
 
-    })
+    });
 
     it('creates REJECT_INITIAL_GEOLOCATION when fetching receiveLocation has been failed', () => {
 
         const expectedAction = [{
             type: types.REJECT_INITIAL_GEOLOCATION,
             position: null,
-            rejection: 'error'
+            rejection: 'user rejection'
         }];
 
         const store = mockStore();
