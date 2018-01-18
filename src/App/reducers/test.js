@@ -7,7 +7,7 @@ describe('Testing reducers initial state', () => {
         it('should return the initial state', () => {
             expect(currentLocation(undefined, {})).toEqual(
                 {
-                    error: null,
+                    rejection: null,
                     position: null
                 }
             )

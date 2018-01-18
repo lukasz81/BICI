@@ -5,50 +5,48 @@ import {addGoogleMapsScriptToDocument} from "../actions";
 import {styles} from "../helpers/mapStyles";
 
 
-class Map extends Component {
+export class Map extends Component {
 
     componentDidMount() {
-        addScriptTag();
+        addScriptTag.add();
     }
 
-    componentWillReceiveProps(newProps) {
-        if (newProps.center && newProps.mapOk) {
-            this.initMap(newProps.center)
+    initMap() {
+        if (window.google) {
+            let map = new window.google.maps.Map(document.getElementById('mapContainer'), {
+                disableDefaultUI: false,
+                center: this.props.center,
+                zoom: 16,
+                styles: styles
+            });
         }
-    }
-
-    initMap = (center) => {
-        let map = new window.google.maps.Map(document.getElementById('mapContainer'), {
-            disableDefaultUI: false,
-            center: center,
-            zoom: 16,
-            styles: styles
-        });
     };
 
     render() {
-        const {center,error} = this.props;
+        const {isLocationKnown} = this.props;
+        {isLocationKnown && this.initMap()}
         return (
             <div>
-                {!center && error !== 1 && <p>Loading data ...</p>}
+                {!isLocationKnown && <p className={'loading'}>Loading data ...</p>}
                 <div id={'mapContainer'} className="Map"> </div>
             </div>
-            )
+        )
 
     }
 
 }
 
-export let dispatchOutsideOfConnect = function(store) {
+export const dispatchOutsideOfConnect = store => {
     store.dispatch(addGoogleMapsScriptToDocument());
 };
 
-function mapStateToProps (state) {
+const mapStateToProps = state => {
     return {
+        state,
         mapOk: state.googleMaps.mapAvailable,
-        center: state.currentLocation.position,
-        error: state.currentLocation.error
+        isLocationKnown: state.currentLocation.position !== null,
+        center: state.currentLocation.position
     };
-}
+};
 
 export default connect(mapStateToProps,null)(Map);

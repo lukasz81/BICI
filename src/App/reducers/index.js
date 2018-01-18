@@ -7,7 +7,7 @@ import {
 
 const initialState = {
     position: null,
-    error: null
+    rejection: null
 };
 
 export function currentLocation(state=initialState,action) {
