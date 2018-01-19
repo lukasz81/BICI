@@ -1,2 +1,2 @@
 export const BIKEPOINTS_ENDPOINT = 'https://api.tfl.gov.uk/BikePoint?app_id=cc48b9df&app_key=c971b37f601d2e9a85bab35ab46125b5';
-export const MAP_ENDPOINT = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC5Z8MMXeK25xmnNcmMmYMzDglt0Jw9MzM&callback=loadMap';
+export const MAP_ENDPOINT = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC5Z8MMXeK25xmnNcmMmYMzDglt0Jw9MzM&callback';

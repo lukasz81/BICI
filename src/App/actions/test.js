@@ -12,12 +12,16 @@ describe('async actions', () => {
 
     it('should create an action to set mapAvailable boolean to true', () => {
 
-        const expectedAction = {
+        const expectedAction = [{
             type: types.LOAD_MAP_SCRIPT,
             mapAvailable: true
-        };
+        }];
 
-        expect(actions.addGoogleMapsScriptToDocument()).toEqual(expectedAction);
+        const store = mockStore();
+
+        return store.dispatch(actions.addGoogleMapsScriptToDocument).then(() => {
+            expect(store.getActions()).toEqual(expectedAction);
+        });
 
     });
 

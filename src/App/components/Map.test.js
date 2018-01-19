@@ -5,13 +5,13 @@ import {configure,mount} from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
-import addScriptTag from "../helpers/loadMap";
+import AddScriptTag from "../helpers/loadMap";
 configure({adapter: new Adapter()});
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-function setup(position = {lat: 10, lng: 10}) {
+function setup(position = {lat: 10, lng: 10}, mapAvailable = true) {
 
     const initialState = {
         currentLocation: {
@@ -20,14 +20,13 @@ function setup(position = {lat: 10, lng: 10}) {
             isLocationKnown: true
         },
         googleMaps: {
-            mapAvailable: true
+            mapAvailable: mapAvailable
         }
     };
 
     const store = mockStore(initialState);
     const app = <Provider store={store}><ConnectedMap/></Provider>;
     const mountWrapper = mount(app);
-
     return {
         mountWrapper,
         initialState,
@@ -35,17 +34,30 @@ function setup(position = {lat: 10, lng: 10}) {
     }
 }
 
-describe('App initial state',() => {
+describe('Map initial state',() => {
 
-    const SpySriptTag = jest.spyOn(addScriptTag, 'add');
-    const { mountWrapper, initialState } = setup();
+    it('render the connected() component and expect componentDidMount to run and action dispatched', () => {
 
-    it('render the connected() component and adds script tag', () => {
-        expect(mountWrapper).toBeTruthy();
-        expect(SpySriptTag).toHaveBeenCalledTimes(1);
+        const Spy = jest.spyOn(Map.prototype, 'componentDidMount');
+        const { mountWrapper } = setup();
+        const store = mountWrapper.find(ConnectedMap).instance().context.store;
+        const actions = store.getActions();
+        const expectedActions = [{ type: 'LOAD_MAP_SCRIPT', mapAvailable: true }];
+
+        expect(actions.length).toBe(0);
+
+        store.subscribe(() => {
+            expect(actions.length).toBe(1);
+            expect(actions).toEqual(expectedActions)
+        });
+
+        expect(mountWrapper.instance()).toBeTruthy();
+        expect(Spy).toHaveBeenCalledTimes(1);
+
     });
 
     it('check that props match the initialState in App', () => {
+        const { mountWrapper, initialState } = setup();
         const AppProps = mountWrapper.find(Map).props();
         expect(AppProps.state).toEqual(initialState);
 
@@ -55,7 +67,16 @@ describe('App initial state',() => {
 
 describe('Map "if" statement rendering ',() => {
 
-    it('it renders loading message when isLocationKnown is false and will not call initMap', () => {
+    it('it should not call initMap method', () => {
+
+        const Spy = jest.spyOn(Map.prototype, 'initMap');
+        const { mountWrapper } = setup(true , null);
+
+        expect(mountWrapper).toBeTruthy();
+        expect(Spy).toHaveBeenCalledTimes(0);
+    });
+
+    it('it renders loading message when position is not given and will not call initMap', () => {
 
         const Spy = jest.spyOn(Map.prototype, 'initMap');
         const { mountWrapper } = setup(null);
@@ -66,7 +87,7 @@ describe('Map "if" statement rendering ',() => {
 
     });
 
-    it('it will not render loading message when isLocationKnown is true and will call initMap', () => {
+    it('it will not render loading message when position is given and will call initMap', () => {
 
         const Spy = jest.spyOn(Map.prototype, 'initMap');
         const { mountWrapper } = setup();

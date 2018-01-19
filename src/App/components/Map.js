@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import addScriptTag from "../helpers/loadMap";
 import {addGoogleMapsScriptToDocument} from "../actions";
 import {styles} from "../helpers/mapStyles";
 
@@ -8,7 +7,7 @@ import {styles} from "../helpers/mapStyles";
 export class Map extends Component {
 
     componentDidMount() {
-        addScriptTag.add();
+        this.props.addGoogleMapsScript();
     }
 
     initMap() {
@@ -23,12 +22,12 @@ export class Map extends Component {
     };
 
     render() {
-        const {isLocationKnown} = this.props;
-        {isLocationKnown && this.initMap()}
+        const {isLocationKnown,mapOk} = this.props;
+        if (isLocationKnown && mapOk) this.initMap();
         return (
             <div>
-                {!isLocationKnown && <p className={'loading'}>Loading data ...</p>}
-                <div id={'mapContainer'} className="Map"> </div>
+                {(!isLocationKnown || !mapOk) && <p className={'loading'}>Loading data ...</p>}
+                <div id={'mapContainer'} className="Map" />
             </div>
         )
 
@@ -36,9 +35,9 @@ export class Map extends Component {
 
 }
 
-export const dispatchOutsideOfConnect = store => {
-    store.dispatch(addGoogleMapsScriptToDocument());
-};
+const mapDispatchToProps = dispatch => ({
+    addGoogleMapsScript: () => dispatch(addGoogleMapsScriptToDocument)
+});
 
 const mapStateToProps = state => {
     return {
@@ -49,4 +48,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps,null)(Map);
+export default connect(mapStateToProps,mapDispatchToProps)(Map);

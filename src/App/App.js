@@ -19,7 +19,7 @@ export class App extends Component {
         return (
             <div className="App">
                 {rejection === 'user rejection'
-                    ? (<p className={'reject'}>Location detection rejected by user ...</p>)
+                    ? (<p className={'reject'}>Location detection rejected ...</p>)
                     : (<Map/>)
                 }
             </div>

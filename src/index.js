@@ -6,7 +6,6 @@ import App from './App/App';
 import {Provider} from 'react-redux';
 import {rootReducer} from './App/reducers';
 import registerServiceWorker from './registerServiceWorker';
-import {dispatchOutsideOfConnect} from './App/components/Map';
 import './index.css';
 
 const logger = store => next => action => {
@@ -20,10 +19,6 @@ const logger = store => next => action => {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk,logger)));
-
-window.loadMap = function() {
-    dispatchOutsideOfConnect(store);
-};
 
 ReactDOM.render(
     <Provider store={store}>
