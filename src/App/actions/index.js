@@ -1,24 +1,44 @@
 import findCurrentLocation from '../helpers/currentLocation';
 import AddScriptTag from "../helpers/loadMap";
+import * as URL from "../helpers/endpoints";
+import * as API from "../api";
 
 import {
     RECEIVE_INITIAL_GEOLOCATION,
     REJECT_INITIAL_GEOLOCATION,
+    RECEIVE_GM_GEOLOCATION,
     LOAD_MAP_SCRIPT
 } from './actionTypes';
 
-export const receiveLocation = (geolocation) => dispatch => {
-    return findCurrentLocation(geolocation).then(
+export const receiveLocation = (Geolocation) => dispatch => {
+    return findCurrentLocation(Geolocation).then(
         position => dispatch({
                 type: RECEIVE_INITIAL_GEOLOCATION,
                 position: position.coords
         }),
-        () => dispatch({
+        error => dispatch({
                 type: REJECT_INITIAL_GEOLOCATION,
                 position: null,
-                rejection: 'user rejection'
-        }))
-        .catch(error => console.log(error))
+                rejection: 'rejection',
+                error: error.code === 1 ? error.message : null
+        })
+    )
+};
+
+export const receiveLocationGM = () => {
+    return (dispatch) => {
+        API.postActions(URL.GEO_ENDPOINT, {}).then(
+            position => dispatch({
+                type: RECEIVE_INITIAL_GEOLOCATION,
+                position: position.location
+            }),
+            error => dispatch({
+                type: REJECT_INITIAL_GEOLOCATION,
+                position: null,
+                rejection: error.message
+            })
+        )
+    }
 };
 
 export const addGoogleMapsScriptToDocument = (dispatch) => {

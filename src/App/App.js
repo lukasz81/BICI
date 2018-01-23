@@ -12,6 +12,7 @@ export class App extends Component {
 
     updateLocation() {
         this.props.receiveLocation();
+        //this.props.receiveLocationGM();
     };
 
     render() {
@@ -36,7 +37,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    receiveLocation: () => dispatch(receiveLocation(navigator.geolocation))
+    receiveLocation: () => dispatch(receiveLocation(navigator.geolocation)),
+    //receiveLocationGM: () => dispatch(receiveLocationGM())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

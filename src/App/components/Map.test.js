@@ -39,24 +39,28 @@ describe('Map initial state',() => {
     it('render the connected() component and expect componentDidMount to run and action dispatched', () => {
 
         const Spy = jest.spyOn(Map.prototype, 'componentDidMount');
+        expect(Spy).toHaveBeenCalledTimes(0);
+
         const { mountWrapper } = setup();
         const store = mountWrapper.find(ConnectedMap).instance().context.store;
         const actions = store.getActions();
         const expectedActions = [{ type: 'LOAD_MAP_SCRIPT', mapAvailable: true }];
 
-        expect(actions.length).toBe(0);
-
         store.subscribe(() => {
             expect(actions.length).toBe(1);
-            expect(actions).toEqual(expectedActions)
+            expect(actions).toEqual(expectedActions);
         });
 
         expect(mountWrapper.instance()).toBeTruthy();
         expect(Spy).toHaveBeenCalledTimes(1);
 
+        expect.hasAssertions();
+        return AddScriptTag.then(outcome => expect(outcome).toEqual({mapAvailable: true}));
+
     });
 
     it('check that props match the initialState in App', () => {
+
         const { mountWrapper, initialState } = setup();
         const AppProps = mountWrapper.find(Map).props();
         expect(AppProps.state).toEqual(initialState);

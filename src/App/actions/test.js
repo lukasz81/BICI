@@ -28,7 +28,7 @@ describe('async actions', () => {
 
     it('creates RECEIVE_INITIAL_GEOLOCATION when fetching receiveLocation has been done', () => {
 
-        const coords = {lat:10,lng:10};
+        const coords = {lat:10, lng:10};
 
         const expectedAction = [{
             type: types.RECEIVE_INITIAL_GEOLOCATION,
@@ -38,10 +38,10 @@ describe('async actions', () => {
         const store = mockStore();
 
         const getCurrentPosition = (callback) => {
-            callback({ coords })
+            callback({coords});
         };
 
-        return store.dispatch(actions.receiveLocation({ getCurrentPosition })).then(() => {
+        return store.dispatch(actions.receiveLocation({getCurrentPosition})).then(() => {
             expect(store.getActions()).toEqual(expectedAction);
         });
 
@@ -52,16 +52,18 @@ describe('async actions', () => {
         const expectedAction = [{
             type: types.REJECT_INITIAL_GEOLOCATION,
             position: null,
-            rejection: 'user rejection'
+            rejection: 'rejection',
+            error: 'User denied Geolocation'
         }];
 
         const store = mockStore();
 
-        const getCurrentPositionWithRejection = (callback, errorCallback) => {
-            errorCallback()
+        const getCurrentPosition = (callback,errorCallback) => {
+            const POSITION_ERROR = {code:1,message: 'User denied Geolocation'};
+            errorCallback(POSITION_ERROR);
         };
 
-        return store.dispatch(actions.receiveLocation({ getCurrentPositionWithRejection })).then(() => {
+        return store.dispatch(actions.receiveLocation({getCurrentPosition})).then(() => {
             expect(store.getActions()).toEqual(expectedAction);
         });
 

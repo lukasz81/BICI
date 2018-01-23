@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {addGoogleMapsScriptToDocument} from "../actions";
+import {addGoogleMapsScriptToDocument, receiveLocationGM} from "../actions";
 import {styles} from "../helpers/mapStyles";
 
 
@@ -8,16 +8,19 @@ export class Map extends Component {
 
     componentDidMount() {
         this.props.addGoogleMapsScript();
+        //this.props.receiveLocationGM();
     }
 
     initMap() {
         if (window.google) {
-            let map = new window.google.maps.Map(document.getElementById('mapContainer'), {
-                disableDefaultUI: false,
-                center: this.props.center,
-                zoom: 16,
-                styles: styles
-            });
+            (() => {
+                new window.google.maps.Map(document.getElementById('mapContainer'), {
+                    disableDefaultUI: false,
+                    center: this.props.center,
+                    zoom: 16,
+                    styles: styles
+                })
+            })();
         }
     };
 

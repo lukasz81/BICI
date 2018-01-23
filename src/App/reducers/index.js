@@ -28,6 +28,24 @@ export function currentLocation(state=initialState,action) {
     }
 }
 
+// export function currentLocationGM(state=initialState,action) {
+//     switch(action.type) {
+//         case RECEIVE_INITIAL_GEOLOCATION :
+//             return {
+//                 ...state,
+//                 position: {lat: action.position.latitude, lng: action.position.longitude}
+//             };
+//         case REJECT_INITIAL_GEOLOCATION :
+//             return {
+//                 ...state,
+//                 position: action.position,
+//                 rejection: action.rejection
+//             };
+//         default:
+//             return state
+//     }
+// }
+
 export function googleMaps(state={mapAvailable:null},action) {
     switch(action.type) {
         case LOAD_MAP_SCRIPT :

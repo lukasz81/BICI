@@ -11,9 +11,9 @@ const AddScriptTag = new Promise((resolve, reject) => {
     document.getElementsByTagName('head')[0].appendChild(script);
 
     if (document.getElementById(ID)) {
-        resolve()
+        resolve({mapAvailable: true});
     } else {
-        reject('Script not found')
+        reject({mapAvailable: false});
     }
 });
 
