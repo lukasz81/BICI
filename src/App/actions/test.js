@@ -52,7 +52,7 @@ describe('async actions', () => {
         const expectedAction = [{
             type: types.REJECT_INITIAL_GEOLOCATION,
             position: null,
-            rejection: 'rejection',
+            rejection: types.REJECTION,
             error: 'User denied Geolocation'
         }];
 

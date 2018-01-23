@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import Map from './components/Map';
 import {receiveLocation} from './actions';
+import {REJECTION} from './actions/actionTypes';
 import './App.css';
 
 export class App extends Component {
@@ -19,7 +20,7 @@ export class App extends Component {
         const {rejection} = this.props;
         return (
             <div className="App">
-                {rejection === 'user rejection'
+                {rejection === REJECTION
                     ? (<p className={'reject'}>Location detection rejected ...</p>)
                     : (<Map/>)
                 }
